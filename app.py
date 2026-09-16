@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 import joblib
 import tensorflow as tf
 import textwrap
+import os
+import gdown
 
 st.set_page_config(
     page_title="Aircraft Health Intelligence",
@@ -348,6 +350,18 @@ render_html(
 # LOAD MODELS
 # ---------------------------------------------------------
 
+# Download the large model file from Google Drive if it is not already present
+FILE_ID = "12KIR0DlidPqsLEYh_gsFC2XLax7uLg5R"
+MODEL_PATH = "rul_model.pkl"
+
+if not os.path.exists(MODEL_PATH):
+    gdown.download(
+        id=FILE_ID,
+        output=MODEL_PATH,
+        quiet=False
+    )
+
+# Load the models
 model = joblib.load("rul_model.pkl")
 scaler = joblib.load("scaler.pkl")
 anomaly_model = joblib.load("anomaly_model.pkl")
